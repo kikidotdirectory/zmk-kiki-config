@@ -67,11 +67,49 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
 
 /* Combos, leader key sequences, mouse emulation */
 
-#include "aptmak-combos.dtsi" // Must be sourced after HRM-combo hack.
+/* #include "aptmak-combos.dtsi" // Must be sourced after HRM-combo hack. */
+
+/* Custom behaviors */
+ZMK_CONDITIONAL_LAYER(function, NUM  NAV, FUN)
+
+// Alt+Tab swapper, requires tri-state module.
+ZMK_TRI_STATE(swapper, bindings = <&kt LGUI>, <&kp TAB>, <&kt LGUI>;
+              ignored-key-positions = <LT3 LM1 LM2 LM3 LM4>;)
+
+ZMK_TRI_STATE(tabswapper, bindings = <&kt LCTL>, <&kp TAB>, <&kt LCTL>;
+              ignored-key-positions = <LT3 LM1 LM2 LM3 LM4>;)
+
+
+// Define mod-morph with a *single* mod trigger for less repetition.
+#define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2)                            \
+  ZMK_MOD_MORPH(NAME, mods = <(MOD_L##MOD | MOD_R##MOD)>;                      \
+                bindings = <BINDING1>, <BINDING2>;)
+
+// Tap: comma | Shift + tap: semicolon
+SIMPLE_MORPH(comma_morph, SFT, &kp COMMA, &kp SEMICOLON)
+// Tap: period | Shift + tap: colon
+SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &kp COLON)
+
+// Tap: parentheses | Shift + tap: angle bracket
+SIMPLE_MORPH(lpar_morph, SFT, &kp LPAR, &kp LT)
+SIMPLE_MORPH(rpar_morph, SFT, &kp RPAR, &kp GT)
+
+// Tap: backspace | Shift + tap: delete
+SIMPLE_MORPH(bksp_del, SFT, &kp BACKSPACE, &kp DELETE)
+
+SIMPLE_MORPH(smart_shift, SFT, &sk LSHIFT, &caps_word)
+
+/* Macros */
+ZMK_MACRO(qu,
+  bindings = <&kp Q &kp U>;
+)
+
+ZMK_MACRO(wq,
+  bindings = <&kp W &kp Q>;
+)
 
 /* Keymap */
 
-ZMK_CONDITIONAL_LAYER(sys, FN NUM, SYS) // FN + NUM --> SYS.
 ZMK_CONDITIONAL_LAYER(sys, FUN NUM, SYS) // FN + NUM --> SYS.
 
 #ifndef ZMK_BASE_LAYER
