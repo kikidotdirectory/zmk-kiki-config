@@ -64,7 +64,7 @@ MAKE_HRM(hr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
 
 /* Combos, leader key sequences, mouse emulation */
 
-/* #include "aptmak-combos.dtsi" // Must be sourced after HRM-combo hack. */
+#include "aptmak-combos.dtsi" // Must be sourced after HRM-combo hack.
 
 /* Custom behaviors */
 ZMK_CONDITIONAL_LAYER(function, NUM  NAV, FUN)
