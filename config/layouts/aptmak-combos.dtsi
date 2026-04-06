@@ -1,4 +1,4 @@
-#define COMBO_TERM_FAST 24
+#define COMBO_TERM_FAST 20
 #define COMBO_TERM_SLOW 40
 
 #define COMBO_IDLE_FAST 120
@@ -6,9 +6,8 @@
 
 /* Horizontal combos - left hand */
 ZMK_COMBO(esc_l,        &kp ESC,               LT3 LT1,     DEF NAV NUM           , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(capslock_l,   &kp CAPSLOCK,          LT3 LT2 LT1, DEF                   , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(capsword,     &caps_word,            LT3 LT2 LT1, DEF                   , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 
-ZMK_COMBO(wq,           &wq,                   LT3 LT2 LT1, DEF                   , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 ZMK_COMBO(qu,           &qu,                   LT2 LT1,     DEF                   , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 ZMK_COMBO(v,            &kp V,                 LT3 LT2,     DEF                   , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 
@@ -21,7 +20,7 @@ ZMK_COMBO(tab_l,        &hl LS(LALT) TAB,      LM3 LM1,     DEF NAV NUM         
 
 ZMK_COMBO(q,            &kp Q,                 LB3 LB2,     DEF                   , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 ZMK_COMBO(z,            &kp Z,                 LB2 LB1,     DEF                   , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(enter,        &kp ENTER,             LB2 LB1,     DEF                   , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(enter,        &kp ENTER,             LB2 LB1,     DEF                   , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
 ZMK_COMBO(undo,         &kp LG(Z),             LB2 LB1,         NAV               , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 ZMK_COMBO(redo,         &kp LS(LG(Z)),         LB3 LB1,         NAV               , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 
