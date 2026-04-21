@@ -1,0 +1,14 @@
+file_format: "1"
+id: klotz
+name: Klotz
+type: shield
+url: https://github.com/Sherman5A/klotz-zmk-config 
+requires: [pro_micro]
+exposes: 
+features:
+  - keys
+  - encoder
+  - studio
+siblings:
+  - klotz_left
+  - klotz_right
