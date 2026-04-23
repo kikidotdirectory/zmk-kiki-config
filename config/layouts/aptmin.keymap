@@ -1,5 +1,6 @@
 #include <behaviors.dtsi>
 #include <dt-bindings/zmk/keys.h>
+#include <zmk-helpers/helper.h>
 
 #define APT 0
 #define NUM 1
@@ -7,26 +8,62 @@
 #define SYM 3
 #define FUN 4
 
+#define XXX &none
+#define ___ &trans
+
+#define QUICK_TAP_MS 100
 
 &caps_word {
     continue-list = <UNDERSCORE MINUS BSPC LSHFT RSHFT>;
 };
 
-/ {
-    macros {
-        macro_shiftable_sch: macro_shiftable_sch {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <
-                    &macro_tap &kp S
-                    &macro_release &kp RSHIFT
-                    &macro_tap &kp C &kp H
-            >;
-            tap-ms = <10>;
-        };
-    };
-};
+//  _______________________  _______________________
+// |  0  |  1  |  2  |  3  \/   4 |   5 |   6 |   7 |
+//       \  8  |  9  | 10  /\  11 |  12 |  13 /
+//             \ 14  | 15 /  \ 16 |  17 /
+//              ----------    ----------
 
+#define KEYS_L 0 1 2 3 8 9 10
+#define KEYS_R 4 5 6 7 11 12 13
+#define THUMBS 14 15 16 17
+
+/* Homerow mods */
+
+#define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS)                                 \
+  ZMK_HOLD_TAP(NAME, bindings = <HOLD>, <TAP>; flavor = "balanced";            \
+               tapping-term-ms = <150>; quick-tap-ms = <QUICK_TAP_MS>;         \
+               hold-trigger-key-positions = <TRIGGER_POS>;)
+
+MAKE_HRM(hl, &kp, &kp, KEYS_R THUMBS)
+MAKE_HRM(hr, &kp, &kp, KEYS_L THUMBS)
+
+/* Layer tap */
+ZMK_HOLD_TAP(my_lt,
+    bindings = <&mo>, <&kp>;
+    flavor = "tap-preferred";
+    tapping-term-ms = <160>;
+    quick-tap-ms = <QUICK_TAP_MS>;
+)
+
+/* Mod morphs */
+
+#define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2)                            \
+  ZMK_MOD_MORPH(NAME, mods = <(MOD_L##MOD | MOD_R##MOD)>;                      \
+                bindings = <BINDING1>, <BINDING2>;)
+
+SIMPLE_MORPH(dotcol, SFT, &kp DOT, &kp COLON)
+SIMPLE_MORPH(comsem, SFT, &kp COMMA, &kp SEMI)
+
+/* Macros */
+
+ZMK_MACRO(macro_shiftable_sch,
+    tap-ms = <10>;
+    bindings = <&macro_tap &kp S
+                &macro_release &kp RSHIFT
+                &macro_tap &kp C &kp H>;
+)
+
+/* Combos */
 
 #define COMBO(NAME, BINDINGS, KEYPOS) \
 combo_##NAME { \
@@ -48,26 +85,19 @@ combo_##NAME { \
 };
 
 #define COMBOS_TOP_ROW(LTPR, LTRM, LTMI, RTIM, RTMR, RTRP) \
-	SLOWCOMBO(_ltpr, LTPR, 0 1) \
-	COMBO(_ltrm, LTRM, 1 2) \
-	COMBO(_ltmi, LTMI, 2 3) \
-	COMBO(_rtim, RTIM, 4 5) \
-	COMBO(_rtmr, RTMR, 5 6) \
-	SLOWCOMBO(_rtrp, RTRP, 6 7)
+    SLOWCOMBO(_ltpr, LTPR, 0 1) \
+    COMBO(_ltrm, LTRM, 1 2) \
+    COMBO(_ltmi, LTMI, 2 3) \
+    COMBO(_rtim, RTIM, 4 5) \
+    COMBO(_rtmr, RTMR, 5 6) \
+    SLOWCOMBO(_rtrp, RTRP, 6 7)
 #define COMBOS_BOT_ROW(LBRM, LBMI, RBIM, RBMR) \
-	COMBO(_lbrm, LBRM, 8 9) \
-	COMBO(_lbmi, LBMI, 9 10) \
-	COMBO(_rbim, RBIM, 11 12) \
-	COMBO(_rbmr, RBMR, 12 13)
+    COMBO(_lbrm, LBRM, 8 9) \
+    COMBO(_lbmi, LBMI, 9 10) \
+    COMBO(_rbim, RBIM, 11 12) \
+    COMBO(_rbmr, RBMR, 12 13)
 
-
-//  _______________________  _______________________
-// |  0  |  1  |  2  |  3  \/   4 |   5 |   6 |   7 |
-//       \  8  |  9  | 10  /\  11 |  12 |  13 /
-//             \ 14  | 15 /  \ 16 |  17 /
-//              ----------    ----------
-
-/{
+/ {
     combos {
         compatible = "zmk,combos";
 /* alphas */
@@ -106,99 +136,32 @@ combo_##NAME { \
     };
 };
 
-//  _______________________  _______________________
-// |  0  |  1  |  2  |  3  \/   4 |   5 |   6 |   7 |
-//       \  8  |  9  | 10  /\  11 |  12 |  13 /
-//             \ 14  | 15 /  \ 16 |  17 /
-//              ----------    ----------
+ZMK_LAYER(aptmak,
+    &hl LCTRL R    &hl LALT S     &hl LGUI T     &hl LSHFT H        &hr RSHFT N    &hr RGUI A     &hr LALT I     &hr RCTRL O
+                   &kp C          &kp G          &kp D              &kp L          &kp U          &kp Y
+                                  &my_lt NUM SQT &my_lt NAV SPACE   &my_lt SYM E   &my_lt FUN TAB
+)
 
+ZMK_LAYER(numbers,
+    &hl LCTRL PLUS &hl LALT MINUS &hl LGUI STAR  &hl LSHFT SLASH    &kp N4         &kp N5         &kp N6         &dotcol
+                   &kp N9         &kp N8         &kp N7             &kp N1         &kp N2         &kp N3
+                                  ___            ___                &kp E          &kp N0
+)
 
-/ {
-    behaviors {
-        hl: homerow_mods_left {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "balanced";
-            tapping-term-ms = <150>;
-            quick-tap-ms = <100>;
-            bindings = <&kp>, <&kp>;
-            // opposite side hand keys
-            hold-trigger-key-positions = <4 5 6 7 11 12 13 14 15 16 17>;
-        };
-        hr: homerow_mods_right {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "balanced";
-            tapping-term-ms = <150>;
-            quick-tap-ms = <100>;
-            bindings = <&kp>, <&kp>;
-            // opposite side hand keys
-            hold-trigger-key-positions = <0 1 2 3 8 9 10 14 15 16 17>;
-        };
+ZMK_LAYER(navigation,
+    &sk LCTRL      &sk LALT       &sk LGUI       &sk LSHFT          &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT
+                   &kp C_AC_COPY  &kp C_AC_CUT   &kp C_AC_PASTE     &kp HOME       &kp C_MUTE     &kp END
+                                  ___            ___                &kp C_VOL_DN   &kp C_VOL_UP
+)
 
-        my_lt: my_layer_taps {
-            compatible = "zmk,behavior-hold-tap";
-            #binding-cells = <2>;
-            flavor = "tap-preferred";
-            tapping-term-ms = <160>;
-            quick-tap-ms = <100>;
-            bindings = <&mo &kp>, <&kp>;
-        };
-        dotcol: dot_colon {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp DOT>, <&kp COLON>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-        comsem: comma_semicolon {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <0>;
-            bindings = <&kp COMMA>, <&kp SEMI>;
-            mods = <(MOD_LSFT|MOD_RSFT)>;
-        };
-    };
-};
+ZMK_LAYER(symbols,
+    &kp EXCL       &kp AT         &kp HASH       &kp DOLLAR         &kp AMPERSAND  &kp ASTERISK   &kp PERCENT    &kp CARET
+                   &kp GRAVE      &kp DQT        &kp UNDERSCORE     &kp BACKSLASH  &kp PIPE       &kp EQUAL
+                                  &kp TILDE      ___                ___            ___
+)
 
-
-/ {
-    keymap {
-        compatible = "zmk,keymap";
-
-        aptmak {
-            bindings = <
-                &hl LCTRL R    &hl LALT S     &hl LGUI T     &hl LSHFT H        &hr RSHFT N    &hr RGUI A     &hr LALT I     &hr RCTRL O
-                               &kp C          &kp G          &kp D              &kp L          &kp U          &kp Y
-                                              &my_lt NUM SQT &my_lt NAV SPACE   &my_lt SYM E   &my_lt FUN TAB
-            >;
-        };
-        numbers {
-            bindings = <
-                &hl LCTRL PLUS &hl LALT MINUS &hl LGUI STAR  &hl LSHFT SLASH    &kp N4         &kp N5         &kp N6         &dotcol
-                               &kp N9         &kp N8         &kp N7             &kp N1         &kp N2         &kp N3
-                                              &trans         &trans             &kp E          &kp N0
-            >;
-        };
-        navigation {
-            bindings = <
-                &sk LCTRL      &sk LALT       &sk LGUI       &sk LSHFT          &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT
-                               &kp C_AC_COPY  &kp C_AC_CUT   &kp C_AC_PASTE     &kp HOME       &kp C_MUTE     &kp END
-                                              &trans         &trans             &kp C_VOL_DN   &kp C_VOL_UP
-            >;
-        };
-        symbols {
-            bindings = <
-                &kp EXCL       &kp AT         &kp HASH       &kp DOLLAR         &kp AMPERSAND  &kp ASTERISK   &kp PERCENT    &kp CARET
-                               &kp GRAVE      &kp DQT        &kp UNDERSCORE     &kp BACKSLASH  &kp PIPE       &kp EQUAL
-                                              &kp TILDE      &trans             &trans         &trans
-            >;
-        };
-        function {
-            bindings = <
-                &bootloader    &kp F12        &kp F11        &kp F10            &kp F4         &kp F5         &kp F6         &none
-                               &kp F9         &kp F8         &kp F7             &kp F1         &kp F2         &kp F3
-                                              &trans         &trans             &trans         &trans
-            >;
-        };
-
-    };
-};
+ZMK_LAYER(function,
+    &bootloader    &kp F12        &kp F11        &kp F10            &kp F4         &kp F5         &kp F6         XXX
+                   &kp F9         &kp F8         &kp F7             &kp F1         &kp F2         &kp F3
+                                  ___            ___                ___            ___
+)
