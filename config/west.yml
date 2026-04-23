@@ -26,6 +26,8 @@ manifest:
       url-base: https://github.com/urob
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: kilipan
+      url-base: https://github.com/kilipan
 
   projects:
     - name: zmk
@@ -45,6 +47,9 @@ manifest:
       path: modules/zmk/tri-state
     - name: zmk-unicode
       path: modules/zmk/unicode
+    - name: zmk-keyboards-teenspirit
+      remote: kilipan
+      revision: main
 
     # Only source necessary Zephyr modules. Remove this entire section to restore
     # the default (needed for less common hardware).
