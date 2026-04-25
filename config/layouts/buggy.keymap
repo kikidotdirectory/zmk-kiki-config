@@ -2,11 +2,12 @@
 #include <dt-bindings/zmk/keys.h>
 #include <zmk-helpers/helper.h> // Requires zmk-helpers module.
 
-#define APT 0
-#define NUM 1
+#define A1  0
+#define A2  1
 #define NAV 2
-#define SYM 3
-#define FUN 4
+#define NUM 3
+#define SYS 4
+#define FUN 5
 
 /* Global defaults */
 
@@ -73,6 +74,9 @@ combo_##NAME { \
 MAKE_HRM(hl, &kp, &kp, KEYS_R THUMBS) // Left-hand HRMs.
 MAKE_HRM(hr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMS.
 
+#define LH(k1, k2, k3, k4) &hl LCTRL k1  &hl LALT k2  &hl LGUI k3  &hl LSHFT k4
+#define RH(k1, k2, k3, k4) &hr RSHFT k1  &hr RGUI k2  &hr LALT k3  &hr RCTRL k4
+
 //  _______________________  _______________________
 // |  0  |  1  |  2  |  3  \/   4 |   5 |   6 |   7 |
 //       \  8  |  9  | 10  /\  11 |  12 |  13 /
@@ -86,7 +90,7 @@ MAKE_HRM(hr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMS.
                      //  LM4+LM3  LM3+LM2  LM2+LM1  RM1+RM2  RM2+RM3  RM3+RM4
         COMBOS_TOP_ROW(&kp W, &kp M, &kp B, &kp V, &comsem, &dotcol)
                COMBOS_BOT_ROW(&kp F, &kp P, &kp X, &kp Z)
-                            //  LB3+LB2  LB2+LB1  RB1+RB2  RB2+RB3
+                      //  LB3+LB2  LB2+LB1  RB1+RB2  RB2+RB3
 
 /* usually on base layer */
         COMBO(q, &kp Q, LB3 LB1)
@@ -144,23 +148,23 @@ MAKE_HRM(hr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMS.
 };
 
 
-ZMK_BASE_LAYER(aptmak,
+ZMK_BASE_LAYER(alpha,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
-   &hl LCTRL R    &hl LALT S    &hl LGUI T    &hl LSHFT H ,     &hr RSHFT N   &hr RGUI A    &hr LALT I    &hr RCTRL O ,
+LH(     N             R             T             S      ), RH(     H             A             I             E      ),
 //╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
-                  &kp C         &kp G         &kp D       ,     &kp L         &kp U         &kp Y       ,
+                  &kp L         &kp D         &kp Y       ,     &kp M         &kp O         &kp U       ,
 //              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
-                           &my_lt NUM SQT &my_lt NAV SPACE,     &my_lt SYM E  &my_lt FUN TAB
+                                &smartnum     &nav_space  ,     &sl A2        &magicshift
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 
-ZMK_BASE_LAYER(numbers,
+ZMK_BASE_LAYER(alpha2,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
-   &hl LCTRL PLUS &hl LALT MINUS &hl LGUI STAR &hl LSHFT SLASH, &kp N4        &kp N5        &kp N6        &dotcol     ,
+LH(     P             W             B             C      ), RH(     F             Z             DOT           J      ),
 //╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
-                  &kp N9        &kp N8        &kp N7      ,     &kp N1        &kp N2        &kp N3      ,
+                  &kp X         &kp V         &kp G       ,     &kp K         &kp Q         &kp COMMA   ,
 //              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
-                                &trans        &trans      ,     &kp E         &kp N0
+                                ___           ___         ,     ___           ___
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 

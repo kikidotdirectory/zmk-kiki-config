@@ -7,5 +7,5 @@
     )
 
 #include "key-labels/teenspirit.h"
-#include "layouts/aptmin.keymap"
+#include "layouts/buggy.keymap"
 
