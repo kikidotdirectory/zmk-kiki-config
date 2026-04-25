@@ -10,22 +10,6 @@
 #define SYM 3
 #define FUN 4
 
-/ {
-    macros {
-        macro_shiftable_sch: macro_shiftable_sch {
-            compatible = "zmk,behavior-macro";
-            #binding-cells = <0>;
-            bindings = <
-                    &macro_tap &kp S
-                    &macro_release &kp RSHIFT
-                    &macro_tap &kp C &kp H
-            >;
-            tap-ms = <10>;
-        };
-    };
-};
-
-
 #define COMBO(NAME, BINDINGS, KEYPOS) \
 combo_##NAME { \
     timeout-ms = <20>; \
