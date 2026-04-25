@@ -46,17 +46,17 @@ combo_##NAME { \
 };
 
 #define COMBOS_TOP_ROW(LTPR, LTRM, LTMI, RTIM, RTMR, RTRP) \
-	SLOWCOMBO(_ltpr, LTPR, 0 1) \
-	COMBO(_ltrm, LTRM, 1 2) \
-	COMBO(_ltmi, LTMI, 2 3) \
-	COMBO(_rtim, RTIM, 4 5) \
-	COMBO(_rtmr, RTMR, 5 6) \
-	SLOWCOMBO(_rtrp, RTRP, 6 7)
+	SLOWCOMBO(_ltpr, LTPR, LM4 LM3) \
+	COMBO(_ltrm, LTRM, LM3 LM2) \
+	COMBO(_ltmi, LTMI, LM2 LM1) \
+	COMBO(_rtim, RTIM, RM1 RM2) \
+	COMBO(_rtmr, RTMR, RM2 RM3) \
+	SLOWCOMBO(_rtrp, RTRP, RM3 RM4)
 #define COMBOS_BOT_ROW(LBRM, LBMI, RBIM, RBMR) \
-	COMBO(_lbrm, LBRM, 8 9) \
-	COMBO(_lbmi, LBMI, 9 10) \
-	COMBO(_rbim, RBIM, 11 12) \
-	COMBO(_rbmr, RBMR, 12 13)
+	COMBO(_lbrm, LBRM, LB3 LB2) \
+	COMBO(_lbmi, LBMI, LB2 LB1) \
+	COMBO(_rbim, RBIM, RB1 RB2) \
+	COMBO(_rbmr, RBMR, RB2 RB3)
 
 
 //  _______________________  _______________________
@@ -69,38 +69,38 @@ combo_##NAME { \
     combos {
         compatible = "zmk,combos";
 /* alphas */
-                     //  0+1    1+2    2+3    4+5      5+6      6+7
+                     //  LM4+LM3  LM3+LM2  LM2+LM1  RM1+RM2  RM2+RM3  RM3+RM4
         COMBOS_TOP_ROW(&kp W, &kp M, &kp B, &kp V, &comsem, &dotcol)
                COMBOS_BOT_ROW(&kp F, &kp P, &kp X, &kp Z)
-                            //  8+9   9+10  11+12  12+13
+                            //  LB3+LB2  LB2+LB1  RB1+RB2  RB2+RB3
 
 /* usually on base layer */
-        COMBO(q, &kp Q, 8 10)
-        COMBO(k, &kp K, 2 10)
-        COMBO(j, &kp J, 5 11)
-        COMBO(shiftablesch, &macro_shiftable_sch, 1 3)
-        COMBO(enter, &kp ENTER, 11 13)
-        COMBO(esc, &kp ESC, 0 3)
-        COMBO(semi, &kp SEMICOLON, 12 16)
-        COMBO(colon, &kp COLON, 13 16)
-        COMBO(minus, &kp MINUS, 1 9)
-        COMBO(slash, &kp SLASH, 6 12)
+        COMBO(q, &kp Q, LB3 LB1)
+        COMBO(k, &kp K, LM2 LB1)
+        COMBO(j, &kp J, RM2 RB1)
+        COMBO(shiftablesch, &macro_shiftable_sch, LM3 LM1)
+        COMBO(enter, &kp ENTER, RB1 RB3)
+        COMBO(esc, &kp ESC, LM4 LM1)
+        COMBO(semi, &kp SEMICOLON, RB2 RH0)
+        COMBO(colon, &kp COLON, RB3 RH0)
+        COMBO(minus, &kp MINUS, LM3 LB2)
+        COMBO(slash, &kp SLASH, RM3 RB2)
 /* parentheticals */
-        COMBO(lt, &kp LT, 1 10)
-        COMBO(lbrc, &kp LBRC, 1 8)
-        COMBO(lbkt, &kp LBKT, 2 9)
-        COMBO(lpar, &kp LPAR, 3 10)
-        COMBO(rt, &kp GT, 6 11)
-        COMBO(rpar, &kp RPAR, 4 11)
-        COMBO(rbkt, &kp RBKT, 5 12)
-        COMBO(rbrc, &kp RBRC, 6 13)
+        COMBO(lt, &kp LT, LM3 LB1)
+        COMBO(lbrc, &kp LBRC, LM3 LB3)
+        COMBO(lbkt, &kp LBKT, LM2 LB2)
+        COMBO(lpar, &kp LPAR, LM1 LB1)
+        COMBO(rt, &kp GT, RM3 RB1)
+        COMBO(rpar, &kp RPAR, RM1 RB1)
+        COMBO(rbkt, &kp RBKT, RM2 RB2)
+        COMBO(rbrc, &kp RBRC, RM3 RB3)
 /* caps */
-        COMBO(caps, &caps_word, 3 4)
-        COMBO(capslock, &kp CAPSLOCK, 1 6)
+        COMBO(caps, &caps_word, LM1 RM1)
+        COMBO(capslock, &kp CAPSLOCK, LM3 RM3)
 /* deletion */
-        COMBO(bspc, &kp BSPC, 4 6)
-        SLOWCOMBO(del, &kp DEL, 5 7)
-        COMBO(delword, &kp LC(BSPC), 4 7)
+        COMBO(bspc, &kp BSPC, RM1 RM3)
+        SLOWCOMBO(del, &kp DEL, RM2 RM4)
+        COMBO(delword, &kp LC(BSPC), RM1 RM4)
     };
 };
 
@@ -121,7 +121,7 @@ combo_##NAME { \
             quick-tap-ms = <100>;
             bindings = <&kp>, <&kp>;
             // opposite side hand keys
-            hold-trigger-key-positions = <4 5 6 7 11 12 13 14 15 16 17>;
+            hold-trigger-key-positions = <RM1 RM2 RM3 RM4 RB1 RB2 RB3 LH1 LH0 RH0 RH1>;
         };
         hr: homerow_mods_right {
             compatible = "zmk,behavior-hold-tap";
@@ -131,7 +131,7 @@ combo_##NAME { \
             quick-tap-ms = <100>;
             bindings = <&kp>, <&kp>;
             // opposite side hand keys
-            hold-trigger-key-positions = <0 1 2 3 8 9 10 14 15 16 17>;
+            hold-trigger-key-positions = <LM4 LM3 LM2 LM1 LB3 LB2 LB1 LH1 LH0 RH0 RH1>;
         };
 
         my_lt: my_layer_taps {
