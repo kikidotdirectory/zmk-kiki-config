@@ -42,6 +42,24 @@ combo_##NAME { \
 	COMBO(_rbim, RBIM, RB1 RB2) \
 	COMBO(_rbmr, RBMR, RB2 RB3)
 
+/* Global defaults */
+
+#define QUICK_TAP_MS 175
+
+&sk {
+  release-after-ms = <900>;
+  quick-release;
+};
+
+&sl { // Allow sticky mods to chord across sticky layers.
+  ignore-modifiers;
+};
+
+&lt {
+  flavor = "balanced";
+  tapping-term-ms = <200>;
+  quick-tap-ms = <QUICK_TAP_MS>;
+};
 
 //  _______________________  _______________________
 // |  0  |  1  |  2  |  3  \/   4 |   5 |   6 |   7 |
