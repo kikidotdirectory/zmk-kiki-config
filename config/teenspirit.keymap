@@ -4,6 +4,11 @@
 #include <zmk-helpers/helper.h> // Requires zmk-helpers module.
 #include "physical-layouts/teenspirit.h"
 
+#ifndef ZMK_BASE_LAYER
+  #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH)                 \
+      ZMK_LAYER(name, LT RT LM RM LB RB LH RH)
+#endif
+
 #define APT 0
 #define NUM 1
 #define NAV 2
@@ -106,12 +111,6 @@ combo_##NAME { \
     };
 };
 
-//  _______________________  _______________________
-// |  0  |  1  |  2  |  3  \/   4 |   5 |   6 |   7 |
-//       \  8  |  9  | 10  /\  11 |  12 |  13 /
-//             \ 14  | 15 /  \ 16 |  17 /
-//              ----------    ----------
-
 
 / {
     behaviors {
@@ -160,45 +159,52 @@ combo_##NAME { \
 };
 
 
-/ {
-    keymap {
-        compatible = "zmk,keymap";
+ZMK_BASE_LAYER(aptmak,
+//╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+   &hl LCTRL R    &hl LALT S    &hl LGUI T    &hl LSHFT H ,     &hr RSHFT N   &hr RGUI A    &hr LALT I    &hr RCTRL O ,
+//╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
+                  &kp C         &kp G         &kp D       ,     &kp L         &kp U         &kp Y       ,
+//              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
+                           &my_lt NUM SQT &my_lt NAV SPACE,     &my_lt SYM E  &my_lt FUN TAB
+//                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+)
 
-        aptmak {
-            bindings = <
-                &hl LCTRL R    &hl LALT S     &hl LGUI T     &hl LSHFT H        &hr RSHFT N    &hr RGUI A     &hr LALT I     &hr RCTRL O
-                               &kp C          &kp G          &kp D              &kp L          &kp U          &kp Y
-                                              &my_lt NUM SQT &my_lt NAV SPACE   &my_lt SYM E   &my_lt FUN TAB
-            >;
-        };
-        numbers {
-            bindings = <
-                &hl LCTRL PLUS &hl LALT MINUS &hl LGUI STAR  &hl LSHFT SLASH    &kp N4         &kp N5         &kp N6         &dotcol
-                               &kp N9         &kp N8         &kp N7             &kp N1         &kp N2         &kp N3
-                                              &trans         &trans             &kp E          &kp N0
-            >;
-        };
-        navigation {
-            bindings = <
-                &sk LCTRL      &sk LALT       &sk LGUI       &sk LSHFT          &kp LEFT       &kp DOWN       &kp UP         &kp RIGHT
-                               &kp C_AC_COPY  &kp C_AC_CUT   &kp C_AC_PASTE     &kp HOME       &kp C_MUTE     &kp END
-                                              &trans         &trans             &kp C_VOL_DN   &kp C_VOL_UP
-            >;
-        };
-        symbols {
-            bindings = <
-                &kp EXCL       &kp AT         &kp HASH       &kp DOLLAR         &kp AMPERSAND  &kp ASTERISK   &kp PERCENT    &kp CARET
-                               &kp GRAVE      &kp DQT        &kp UNDERSCORE     &kp BACKSLASH  &kp PIPE       &kp EQUAL
-                                              &kp TILDE      &trans             &trans         &trans
-            >;
-        };
-        function {
-            bindings = <
-                &bootloader    &kp F12        &kp F11        &kp F10            &kp F4         &kp F5         &kp F6         &none
-                               &kp F9         &kp F8         &kp F7             &kp F1         &kp F2         &kp F3
-                                              &trans         &trans             &trans         &trans
-            >;
-        };
+ZMK_BASE_LAYER(numbers,
+//╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+   &hl LCTRL PLUS &hl LALT MINUS &hl LGUI STAR &hl LSHFT SLASH, &kp N4        &kp N5        &kp N6        &dotcol     ,
+//╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
+                  &kp N9        &kp N8        &kp N7      ,     &kp N1        &kp N2        &kp N3      ,
+//              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
+                                &trans        &trans      ,     &kp E         &kp N0
+//                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+)
 
-    };
-};
+ZMK_BASE_LAYER(navigation,
+//╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+   &sk LCTRL      &sk LALT      &sk LGUI      &sk LSHFT   ,     &kp LEFT      &kp DOWN      &kp UP        &kp RIGHT   ,
+//╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
+                  &kp C_AC_COPY &kp C_AC_CUT  &kp C_AC_PASTE,   &kp HOME      &kp C_MUTE    &kp END     ,
+//              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
+                                &trans        &trans      ,     &kp C_VOL_DN  &kp C_VOL_UP
+//                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+)
+
+ZMK_BASE_LAYER(symbols,
+//╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+   &kp EXCL       &kp AT        &kp HASH      &kp DOLLAR  ,     &kp AMPERSAND &kp ASTERISK  &kp PERCENT   &kp CARET   ,
+//╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
+                  &kp GRAVE     &kp DQT       &kp UNDERSCORE,   &kp BACKSLASH &kp PIPE      &kp EQUAL   ,
+//              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
+                                &kp TILDE     &trans      ,     &trans        &trans
+//                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+)
+
+ZMK_BASE_LAYER(function,
+//╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+   &bootloader    &kp F12       &kp F11       &kp F10     ,     &kp F4        &kp F5        &kp F6        &none       ,
+//╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
+                  &kp F9        &kp F8        &kp F7      ,     &kp F1        &kp F2        &kp F3      ,
+//              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
+                                &trans        &trans      ,     &trans        &trans
+//                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+)
