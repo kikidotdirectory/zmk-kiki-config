@@ -78,7 +78,6 @@ combo_##NAME { \
         COMBO(q, &kp Q, LB3 LB1)
         COMBO(k, &kp K, LM2 LB1)
         COMBO(j, &kp J, RM2 RB1)
-        COMBO(shiftablesch, &macro_shiftable_sch, LM3 LM1)
         COMBO(enter, &kp ENTER, RB1 RB3)
         COMBO(esc, &kp ESC, LM4 LM1)
         COMBO(semi, &kp SEMICOLON, RB2 RH0)
