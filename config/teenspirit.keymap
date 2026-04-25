@@ -6,6 +6,6 @@
                  LH RH                                                   \
     )
 
-#include "/key-labels/teenspirit.h"
+#include "key-labels/teenspirit.h"
 #include "layouts/aptmin.keymap"
 
