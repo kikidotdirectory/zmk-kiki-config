@@ -7,11 +7,6 @@
 #define SYM 3
 #define FUN 4
 
-
-&caps_word {
-    continue-list = <UNDERSCORE MINUS BSPC LSHFT RSHFT>;
-};
-
 / {
     macros {
         macro_shiftable_sch: macro_shiftable_sch {
