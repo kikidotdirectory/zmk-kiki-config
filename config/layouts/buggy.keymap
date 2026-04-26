@@ -31,6 +31,14 @@
   quick-tap-ms = <QUICK_TAP_MS>;
 };
 
+/* Define combo helpers */
+
+#define COMBO_TERM_FAST 20
+#define COMBO_TERM_SLOW 40
+
+#define COMBO_IDLE_FAST 120
+#define COMBO_IDLE_SLOW 50
+
 #define COMBO(NAME, BINDINGS, KEYPOS) \
 combo_##NAME { \
     timeout-ms = <20>; \
@@ -62,6 +70,10 @@ combo_##NAME { \
 	COMBO(_lbmi, LBMI, LB2 LB1) \
 	COMBO(_rbim, RBIM, RB1 RB2) \
 	COMBO(_rbmr, RBMR, RB2 RB3)
+
+/* #define VERTICAL_COMBOS(LAYER, LVR, LVM, LVI, RVI, RVM, RVR) \ */
+#define VERT_COMBOS(LAYER, LVR) \
+	ZMK_COMBO(LAYER##_LVR, LVR, LM3 LB3, LAYER, COMBO_TERM_FAST, COMBO_IDLE_FAST)
 
 /* Homerow mods */
 #define KEYS_L LM1 LM2 LM3 LM4 LB1 LB2 LB3
@@ -101,6 +113,29 @@ SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &kp COLON)
 SIMPLE_MORPH(lpar_morph, SFT, &kp LPAR, &kp LT)
 SIMPLE_MORPH(rpar_morph, SFT, &kp RPAR, &kp GT)
 
+ZMK_MACRO(rl,
+  bindings = <&kp R &kp L>;
+)
+
+ZMK_MACRO(dt,
+  bindings = <&kp D &kp T>;
+)
+
+ZMK_MACRO(sy,
+  bindings = <&kp S &kp Y>;
+)
+
+ZMK_MACRO(hm,
+  bindings = <&kp H &kp M>;
+)
+
+ZMK_MACRO(oa,
+  bindings = <&kp O &kp A>;
+)
+
+ZMK_MACRO(ui,
+  bindings = <&kp U &kp I>;
+)
 
 /* Other small helpers */
 
@@ -120,6 +155,8 @@ LH(     N       ,     R       ,     T       ,     S      ), RH(     H       ,   
                                 &sl NUM       &lt NAV SPACE,    &sl BETA      &sl SYM
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
+
+VERT_COMBOS(ALPHA, &rl, &td, &sy, &hm, &oa, &ui)
 
 ZMK_BASE_LAYER(beta,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
