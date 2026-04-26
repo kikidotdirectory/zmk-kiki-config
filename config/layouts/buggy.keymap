@@ -9,6 +9,9 @@
 #define SYS 4
 #define FUN 5
 
+#define ___ &trans
+#define XXX &none
+
 /* Global defaults */
 
 #define QUICK_TAP_MS 175
