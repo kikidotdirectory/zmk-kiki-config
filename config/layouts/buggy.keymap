@@ -162,7 +162,7 @@ ZMK_COMBO(gt,           &kp GT,                    RM2 RB3,                     
 /* Middle horizontal combos */
 ZMK_COMBO(tab,          &hl LC(LALT) TAB,          LM2 LM1,      ALPHA BETA        NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
 ZMK_COMBO(ret,          &hl LS(LALT) RET,      LM3     LM1,      ALPHA BETA        NUMSYS SYM , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
-ZMK_COMBO(sqt,          &kp LC(LALT) SQT,      LM3 LM2    ,      ALPHA BETA        NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(sqt,          &hl LC(LALT) SQT,      LM3 LM2    ,      ALPHA BETA        NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
 ZMK_COMBO(winswap,      &winswapper,               LM2 LM1,                 NUMNAV            , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
 ZMK_COMBO(tabswap,      &tabswapper,           LM3 LM2    ,                 NUMNAV            , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
 ZMK_COMBO(s_tab,        &mt LSHIFT LS(TAB),    LM3     LM1,                 NUMNAV            , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
