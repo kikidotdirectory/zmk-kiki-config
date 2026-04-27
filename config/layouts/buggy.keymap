@@ -182,6 +182,8 @@ ZMK_COMBO(ret,          &kp RETURN,            RB1     RB3,      ALPHA BETA NUMN
 
 /* Keymap layers */
 
+ZMK_CONDITIONAL_LAYER(fun, NUMNAV SYM, FUN)
+
 
 ZMK_BASE_LAYER(alpha,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
