@@ -13,7 +13,7 @@
 
 /* Global defaults */
 
-#define QUICK_TAP_MS 175
+#define QUICK_TAP_MS 350
 
 &sk {
   release-after-ms = <900>;
