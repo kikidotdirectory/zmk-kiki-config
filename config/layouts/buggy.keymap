@@ -156,27 +156,29 @@ MAKE_HRM(r_dot, &kp, &dot_morph, KEYS_L THUMBS)
 
 /* Combos */
 
-ZMK_COMBO(backslash,    &kp BSLH,              LB3 LM2,     ALPHA BETA            , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(fslash,       &kp SLASH,             RB3 RM2,     ALPHA BETA            , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(lt,           &kp LT,                LB3 LM2,                NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(gt,           &kp GT,                RB3 RM2,                NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+/* Diagonal combos */
+ZMK_COMBO(backslash,    &kp BSLH,              LB3 LM2    ,      ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(fslash,       &kp SLASH,                 RM2 RB3,      ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(lt,           &kp LT,                LB3 LM2    ,                        SYM , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(gt,           &kp GT,                    RM2 RB3,                        SYM , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
 
-ZMK_COMBO(shift_l,      &sk LSHIFT,            LB3 LB2,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
-ZMK_COMBO(shift_r,      &sk RSHIFT,            RB3 RB2,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+/* Middle horizontal combos */
+ZMK_COMBO(tab,          &kp TAB,                   LM2 LM1,      ALPHA BETA        SYM , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(winswap,      &winswapper,               LM2 LM1,                 NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(tabswap,      &tabswapper,           LM3 LM2    ,                 NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(s_tab,        &mt LSHIFT LS(TAB),    LM3     LM1,                 NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
 
-ZMK_COMBO(tab,          &kp TAB,               LM2 LM1,     ALPHA BETA            , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(winswap,      &winswapper,           LM2 LM1,                NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
-ZMK_COMBO(tabswap,      &tabswapper,           LM3 LM2,                NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
-ZMK_COMBO(s_tab,        &mt LSHIFT LS(TAB),    LM3 LM1,                NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(bsp,          &kp BACKSPACE,         RM1 RM2    ,      ALPHA BETA NUMNAV SYM , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(del,          &kp DEL,                   RM2 RM3,      ALPHA BETA NUMNAV SYM , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(bspword,      &kp LA(BACKSPACE),     RM1     RM3,      ALPHA BETA NUMNAV SYM , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
 
-ZMK_COMBO(esc,          &kp ESC,               LB2 LB1,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+/* Bottom Horizontal combos */
+ZMK_COMBO(esc,          &kp ESC,                   LB2 LB1,      ALPHA BETA NUMNAV SYM , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(shift_l,      &sk LSHIFT,            LB3 LB2    ,      ALPHA BETA NUMNAV SYM , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
 
-ZMK_COMBO(bsp,          &kp BACKSPACE,         RM2 RM1,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(del,          &kp DEL,               RM3 RM2,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(bspword,      &kp LA(BACKSPACE),     RM3 RM1,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
-
-ZMK_COMBO(minus,        &kp MINUS,             RB2 RB1,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
-ZMK_COMBO(ret,          &kp RETURN,            RB3 RB1,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(shift_r,      &sk RSHIFT,                RB2 RB3,      ALPHA BETA NUMNAV SYM , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(minus,        &kp MINUS,             RB1 RB2    ,      ALPHA BETA NUMNAV SYM , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(ret,          &kp RETURN,            RB1     RB3,      ALPHA BETA NUMNAV SYM , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
 
 /* Keymap layers */
 
@@ -191,7 +193,7 @@ LH(     N       ,     R       ,     T       ,     S      ), RH(     H       ,   
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 
-VERT_COMBOS(ALPHA, &rl, &dt, &sy, &hm, &oa, &ui)
+VERT_COMBOS(ALPHA, &rl, &td, &sy, &hm, &ao, &iu)
 
 ZMK_BASE_LAYER(beta,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
@@ -203,13 +205,13 @@ LH(     P       ,     W       ,     B       ,     C      ),     &hr RSHIFT F  &h
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 
-VERT_COMBOS(ALPHA, &lr, &td, &ys, &mh, &ao, &iu)
+VERT_COMBOS(ALPHA, &lr, &dt, &ys, &mh, &oa, &ui)
 
 ZMK_BASE_LAYER(numnav,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
 LH(     LEFT    ,     DOWN    ,     UP      ,     RIGHT  ),     &hr RSHFT N1  &hr RCTL N2   &hr RALT N3   &r_dot RGUI DOT,
 //╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
-                  ___           ___           ___         ,     &kp N4        &kp N5        &kp N6      ,
+                  &kp PGDN      &kp PGUP      ___         ,     &kp N4        &kp N5        &kp N6      ,
 //              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
                                 ___           ___         ,     &kp N0        ___
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
