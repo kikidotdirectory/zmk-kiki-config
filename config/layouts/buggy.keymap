@@ -53,7 +53,7 @@
 	COMBO(LAYER##_rbim, RBIM, RB1 RB2, COMBO_TERM_FAST, COMBO_IDLE_FAST) \
 	COMBO(LAYER##_rbmr, RBMR, RB2 RB3, COMBO_TERM_FAST, COMBO_IDLE_FAST)
 
-#define VERTICAL_COMBOS(LAYER, LVR, LVM, LVI, RVI, RVM, RVR) \
+#define VERT_COMBOS(LAYER, LVR, LVM, LVI, RVI, RVM, RVR) \
 	ZMK_COMBO(LAYER##_lvr, LVR, LM3 LB3, LAYER, COMBO_TERM_FAST, COMBO_IDLE_SLOW) \
 	ZMK_COMBO(LAYER##_lvm, LVM, LM2 LB2, LAYER, COMBO_TERM_FAST, COMBO_IDLE_SLOW) \
 	ZMK_COMBO(LAYER##_lvi, LVI, LM1 LB1, LAYER, COMBO_TERM_FAST, COMBO_IDLE_SLOW) \
@@ -142,7 +142,7 @@ LH(     N       ,     R       ,     T       ,     S      ), RH(     H       ,   
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 
-VERT_COMBOS(ALPHA, &rl, &td, &sy, &hm, &oa, &ui)
+VERT_COMBOS(ALPHA, &rl, &dt, &sy, &hm, &oa, &ui)
 
 ZMK_BASE_LAYER(beta,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
