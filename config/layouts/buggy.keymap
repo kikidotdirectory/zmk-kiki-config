@@ -83,6 +83,12 @@ MAKE_HRM(hr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMS.
 //             \ 14  | 15 /  \ 16 |  17 /
 //              ----------    ----------
 
+// Alt+Tab swapper, requires tri-state module.
+ZMK_TRI_STATE(winswapper, bindings = <&kt LGUI>, <&kp TAB>, <&kt LGUI>;
+              ignored-key-positions = <LM1 LM2 LM3 LM4>;)
+
+ZMK_TRI_STATE(tabswapper, bindings = <&kt LCTL>, <&kp TAB>, <&kt LCTL>;
+              ignored-key-positions = <LM1 LM2 LM3 LM4>;)
 
 // Define mod-morph with a *single* mod trigger for less repetition.
 #define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2)                            \
@@ -93,10 +99,6 @@ MAKE_HRM(hr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMS.
 SIMPLE_MORPH(comma_morph, SFT, &kp COMMA, &kp SEMICOLON)
 // Tap: period | Shift + tap: colon
 SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &kp COLON)
-
-// Tap: parentheses | Shift + tap: angle bracket
-SIMPLE_MORPH(lpar_morph, SFT, &kp LPAR, &kp LT)
-SIMPLE_MORPH(rpar_morph, SFT, &kp RPAR, &kp GT)
 
 ZMK_MACRO(rl,
   bindings = <&kp R &kp L>;
@@ -151,6 +153,30 @@ ZMK_MACRO(iu,
 MAKE_HRM(r_dot, &kp, &dot_morph, KEYS_L THUMBS)
 // HACK: the HRM helper requires the second argument to be a &kp so this is a... workaround.
 
+
+/* Combos */
+
+ZMK_COMBO(backslash,    &kp BSLH,              LB3 LM2,     ALPHA BETA            , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(fslash,       &kp SLASH,             RB3 RM2,     ALPHA BETA            , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(lt,           &kp LT,                LB3 LM2,                NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(gt,           &kp GT,                RB3 RM2,                NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+
+ZMK_COMBO(shift_l,      &sk LSHIFT,            LB3 LB2,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(shift_r,      &sk RSHIFT,            RB3 RB2,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+
+ZMK_COMBO(tab,          &kp TAB,               LM2 LM1,     ALPHA BETA            , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(winswap,      &winswapper,           LM2 LM1,                NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(tabswap,      &tabswapper,           LM3 LM2,                NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(s_tab,        &mt LSHIFT LS(TAB),    LM3 LM1,                NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+
+ZMK_COMBO(esc,          &kp ESC,               LB2 LB1,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+
+ZMK_COMBO(bsp,          &kp BACKSPACE,         RM2 RM1,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(del,          &kp DEL,               RM3 RM2,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(bspword,      &kp LA(BACKSPACE),     RM3 RM1,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
+
+ZMK_COMBO(minus,        &kp MINUS,             RB2 RB1,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(ret,          &kp RETURN,            RB3 RB1,     ALPHA BETA NUMNAV     , COMBO_IDLE_FAST, COMBO_IDLE_FAST)
 
 /* Keymap layers */
 
