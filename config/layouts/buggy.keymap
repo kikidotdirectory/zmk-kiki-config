@@ -201,6 +201,8 @@ ZMK_BASE_LAYER(symbols,
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 
+VERT_COMBOS(SYM, &kp LPAR, &kp LBKT, &kp LBRC, &kp RBRC, &kp RBKT, &kp RPAR)
+
 ZMK_BASE_LAYER(function,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
    &bootloader    &kp F12       &kp F11       &kp F10     ,     &kp F4        &kp F5        &kp F6        &none       ,
