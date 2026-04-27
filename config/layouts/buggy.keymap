@@ -161,8 +161,8 @@ ZMK_COMBO(gt,           &kp GT,                    RM2 RB3,                     
 
 /* Middle horizontal combos */
 ZMK_COMBO(tab,          &hl LC(LALT) TAB,          LM2 LM1,      ALPHA BETA        NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(ret,          &kp RETURN,            LM1     LM3,      ALPHA BETA        NUMSYS SYM , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
-ZMK_COMBO(esc,          &kp ESC,               LM1 LM2    ,      ALPHA BETA        NUMSYS SYM , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(ret,          &hl LS(LALT) RET,      LM3     LM1,      ALPHA BETA        NUMSYS SYM , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(sqt,          &kp LC(LALT) SQT,      LM3 LM2    ,      ALPHA BETA        NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
 ZMK_COMBO(winswap,      &winswapper,               LM2 LM1,                 NUMNAV            , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
 ZMK_COMBO(tabswap,      &tabswapper,           LM3 LM2    ,                 NUMNAV            , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
 ZMK_COMBO(s_tab,        &mt LSHIFT LS(TAB),    LM3     LM1,                 NUMNAV            , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
@@ -172,10 +172,10 @@ ZMK_COMBO(del,          &hr RC(RALT) DEL,          RM2 RM3,      ALPHA BETA NUMN
 ZMK_COMBO(bspword,      &kp RS(RALT) RA(BSPC), RM1     RM3,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
 
 /* Bottom Horizontal combos */
-ZMK_COMBO(sqt,          &kp SQT,                   LB2 LB1,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(shift_l,      &sk LSHIFT,            LB3 LB2    ,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(esc,          &kp ESC,                   LB2 LB1,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(shift_l,      &sk LSHIFT,            LB3 LB2    ,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 
-ZMK_COMBO(shift_r,      &sk RSHIFT,                RB2 RB3,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(shift_r,      &sk RSHIFT,                RB2 RB3,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 ZMK_COMBO(minus,        &kp MINUS,             RB1 RB2    ,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
 
 /* Keymap layers */
