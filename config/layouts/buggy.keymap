@@ -74,8 +74,8 @@
 MAKE_HRM(hl, &kp, &kp, KEYS_R THUMBS) // Left-hand HRMs.
 MAKE_HRM(hr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMS.
 
-#define LH(k1, k2, k3, k4) &hl LCTRL k1  &hl LALT k2  &hl LGUI k3  &hl LSHFT k4
-#define RH(k1, k2, k3, k4) &hr RSHFT k1  &hr RGUI k2  &hr LALT k3  &hr RCTRL k4
+#define LH(k1, k2, k3, k4) &hl LGUI k1  &hl LALT k2  &hl LCTL k3  &hl LSHFT k4
+#define RH(k1, k2, k3, k4) &hr RSHFT k1  &hr RCTL k2  &hr LALT k3  &hr RGUI k4
 
 /* Custom behavior */
 
