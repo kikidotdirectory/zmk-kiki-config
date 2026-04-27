@@ -1,0 +1,240 @@
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <zmk-helpers/helper.h> // Requires zmk-helpers module.
+
+#define ALPHA 0
+#define BETA 1
+#define NUMNAV 2
+#define SYM 3
+#define FUN 4
+
+#define ___ &trans
+#define XXX &none
+
+/* Global defaults */
+
+#define QUICK_TAP_MS 350
+
+&sk {
+  release-after-ms = <900>;
+  quick-release;
+};
+
+&sl { // Allow sticky mods to chord across sticky layers.
+  ignore-modifiers;
+};
+
+&lt {
+  flavor = "balanced";
+  tapping-term-ms = <200>;
+  quick-tap-ms = <QUICK_TAP_MS>;
+};
+
+/* Define combo helpers */
+
+#define COMBO_TERM_FAST 18
+#define COMBO_TERM_SLOW 40
+
+#define COMBO_IDLE_FAST 120
+#define COMBO_IDLE_SLOW 50
+
+#define COMBOS_TOP_ROW(LAYER, LTPR, LTRM, LTMI, RTIM, RTMR, RTRP)                      \
+	ZMK_COMBO(LAYER##_ltpr, LTPR, LM4 LM3, LAYER, COMBO_TERM_SLOW, COMBO_IDLE_FAST) \
+	ZMK_COMBO(LAYER##_ltrm, LTRM, LM3 LM2, LAYER, COMBO_TERM_FAST, COMBO_IDLE_FAST) \
+	ZMK_COMBO(LAYER##_ltmi, LTMI, LM2 LM1, LAYER, COMBO_TERM_FAST, COMBO_IDLE_FAST) \
+	ZMK_COMBO(LAYER##_rtim, RTIM, RM1 RM2, LAYER, COMBO_TERM_FAST, COMBO_IDLE_FAST) \
+	ZMK_COMBO(LAYER##_rtmr, RTMR, RM2 RM3, LAYER, COMBO_TERM_FAST, COMBO_IDLE_FAST) \
+	ZMK_COMBO(LAYER##_rtrp, RTRP, RM3 RM4, LAYER, COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+
+#define COMBOS_BOT_ROW(LAYER, LBRM, LBMI, RBIM, RBMR) \
+	COMBO(LAYER##_lbrm, LBRM, LB3 LB2, COMBO_TERM_FAST, COMBO_IDLE_FAST) \
+	COMBO(LAYER##_lbmi, LBMI, LB2 LB1, COMBO_TERM_FAST, COMBO_IDLE_FAST) \
+	COMBO(LAYER##_rbim, RBIM, RB1 RB2, COMBO_TERM_FAST, COMBO_IDLE_FAST) \
+	COMBO(LAYER##_rbmr, RBMR, RB2 RB3, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+#define VERT_COMBOS(LAYER, LVR, LVM, LVI, RVI, RVM, RVR) \
+	ZMK_COMBO(LAYER##_lvr, LVR, LM3 LB3, LAYER, COMBO_TERM_FAST, COMBO_IDLE_SLOW) \
+	ZMK_COMBO(LAYER##_lvm, LVM, LM2 LB2, LAYER, COMBO_TERM_FAST, COMBO_IDLE_SLOW) \
+	ZMK_COMBO(LAYER##_lvi, LVI, LM1 LB1, LAYER, COMBO_TERM_FAST, COMBO_IDLE_SLOW) \
+	ZMK_COMBO(LAYER##_rvr, RVR, RM3 RB3, LAYER, COMBO_TERM_FAST, COMBO_IDLE_SLOW) \
+	ZMK_COMBO(LAYER##_rvm, RVM, RM2 RB2, LAYER, COMBO_TERM_FAST, COMBO_IDLE_SLOW) \
+	ZMK_COMBO(LAYER##_rvi, RVI, RM1 RB1, LAYER, COMBO_TERM_FAST, COMBO_IDLE_SLOW) \
+
+/* Homerow mods */
+#define KEYS_L LM1 LM2 LM3 LM4 LB1 LB2 LB3
+#define KEYS_R RM1 RM2 RM3 RM4 RB1 RB2 RB3
+#define THUMBS LH1 LH0 RH0 RH1
+
+#define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS)                                 \
+  ZMK_HOLD_TAP(NAME, bindings = <HOLD>, <TAP>; flavor = "balanced";            \
+               tapping-term-ms = <230>; quick-tap-ms = <QUICK_TAP_MS>;         \
+               require-prior-idle-ms = <150>; hold-trigger-on-release;         \
+               hold-trigger-key-positions = <TRIGGER_POS>;)
+
+MAKE_HRM(hl, &kp, &kp, KEYS_R THUMBS) // Left-hand HRMs.
+MAKE_HRM(hr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMS.
+
+#define LH(k1, k2, k3, k4) &hl LCTRL k1  &hl LALT k2  &hl LGUI k3  &hl LSHFT k4
+#define RH(k1, k2, k3, k4) &hr RSHFT k1  &hr RGUI k2  &hr LALT k3  &hr RCTRL k4
+
+/* Custom behavior */
+
+// Alt+Tab swapper, requires tri-state module.
+ZMK_TRI_STATE(winswapper, bindings = <&kt LGUI>, <&kp TAB>, <&kt LGUI>;
+              ignored-key-positions = <LM1 LM2 LM3 LM4>;)
+
+ZMK_TRI_STATE(tabswapper, bindings = <&kt LCTL>, <&kp TAB>, <&kt LCTL>;
+              ignored-key-positions = <LM1 LM2 LM3 LM4>;)
+
+// Define mod-morph with a *single* mod trigger for less repetition.
+#define SIMPLE_MORPH(NAME, MOD, BINDING1, BINDING2)                            \
+  ZMK_MOD_MORPH(NAME, mods = <(MOD_L##MOD | MOD_R##MOD)>;                      \
+                bindings = <BINDING1>, <BINDING2>;)
+
+// Tap: comma | Shift + tap: semicolon
+SIMPLE_MORPH(comma_morph, SFT, &kp COMMA, &kp SEMICOLON)
+// Tap: period | Shift + tap: colon
+SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &kp COLON)
+
+ZMK_MACRO(rl,
+  bindings = <&kp R &kp L>;
+)
+
+ZMK_MACRO(dt,
+  bindings = <&kp D &kp T>;
+)
+
+ZMK_MACRO(sy,
+  bindings = <&kp S &kp Y>;
+)
+
+ZMK_MACRO(hm,
+  bindings = <&kp H &kp M>;
+)
+
+ZMK_MACRO(oa,
+  bindings = <&kp O &kp A>;
+)
+
+ZMK_MACRO(ui,
+  bindings = <&kp U &kp I>;
+)
+
+ZMK_MACRO(lr,
+  bindings = <&kp L &kp R>;
+)
+
+ZMK_MACRO(td,
+  bindings = <&kp T &kp D>;
+)
+
+ZMK_MACRO(ys,
+  bindings = <&kp Y &kp S>;
+)
+
+ZMK_MACRO(mh,
+  bindings = <&kp M &kp H>;
+)
+
+ZMK_MACRO(ao,
+  bindings = <&kp A &kp O>;
+)
+
+ZMK_MACRO(iu,
+  bindings = <&kp I &kp U>;
+)
+
+/* Other small helpers */
+
+MAKE_HRM(r_dot, &kp, &dot_morph, KEYS_L THUMBS)
+// HACK: the HRM helper requires the second argument to be a &kp so this is a... workaround.
+
+
+/* Combos */
+
+/* Diagonal combos */
+ZMK_COMBO(backslash,    &kp BSLH,              LB3 LM2    ,      ALPHA BETA NUMNAV     , COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(fslash,       &kp SLASH,                 RM2 RB3,      ALPHA BETA NUMNAV     , COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(lt,           &kp LT,                LB3 LM2    ,                        SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(gt,           &kp GT,                    RM2 RB3,                        SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+/* Middle horizontal combos */
+ZMK_COMBO(tab,          &hl LC(LALT) TAB,          LM2 LM1,      ALPHA BETA        SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(winswap,      &winswapper,               LM2 LM1,                 NUMNAV     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(tabswap,      &tabswapper,           LM3 LM2    ,                 NUMNAV     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(s_tab,        &mt LSHIFT LS(TAB),    LM3     LM1,                 NUMNAV     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+
+ZMK_COMBO(bsp,          &hr RS(RCTL) BSPC,     RM1 RM2    ,      ALPHA BETA NUMNAV SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(del,          &hr RC(RALT) DEL,          RM2 RM3,      ALPHA BETA NUMNAV SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(bspword,      &kp RS(RALT) RA(BSPC), RM1     RM3,      ALPHA BETA NUMNAV SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+/* Bottom Horizontal combos */
+ZMK_COMBO(esc,          &kp ESC,                   LB2 LB1,      ALPHA BETA NUMNAV SYM , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(shift_l,      &sk LSHIFT,            LB3 LB2    ,      ALPHA BETA NUMNAV SYM , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+
+ZMK_COMBO(shift_r,      &sk RSHIFT,                RB2 RB3,      ALPHA BETA NUMNAV SYM , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(minus,        &kp MINUS,             RB1 RB2    ,      ALPHA BETA NUMNAV SYM , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(ret,          &kp RETURN,            RB1     RB3,      ALPHA BETA NUMNAV SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
+
+/* Keymap layers */
+
+ZMK_CONDITIONAL_LAYER(fun, NUMNAV SYM, FUN)
+
+
+ZMK_BASE_LAYER(alpha,
+//╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+LH(     N       ,     R       ,     T       ,     S      ), RH(     H       ,     A       ,     I       ,     E      ),
+//╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
+                  &kp L         &kp D         &kp Y       ,     &kp M         &kp O         &kp U       ,
+//              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
+                                &kp SQT     &lt NUMNAV SPACE,   &sl BETA      &sl SYM
+//                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+)
+
+VERT_COMBOS(ALPHA, &rl, &td, &sy, &hm, &ao, &iu)
+
+ZMK_BASE_LAYER(beta,
+//╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+LH(     P       ,     W       ,     B       ,     C      ),     &hr RSHIFT F  &hr RCTL Z   &r_dot RALT DOT &hr RGUI J ,
+//╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
+                  &kp X         &kp V         &kp G       ,     &kp K         &kp Q         &comma_morph,
+//              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
+                                ___           ___         ,     ___           ___
+//                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+)
+
+VERT_COMBOS(ALPHA, &lr, &dt, &ys, &mh, &oa, &ui)
+
+ZMK_BASE_LAYER(numnav,
+//╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+LH(     LEFT    ,     DOWN    ,     UP      ,     RIGHT  ),     &hr RSHFT N1  &hr RCTL N2   &hr RALT N3   &r_dot RGUI DOT,
+//╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
+                  &kp PGDN      &kp PGUP      ___         ,     &kp N4        &kp N5        &kp N6      ,
+//              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
+                                ___           ___         ,     &kp N0        ___
+//                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+)
+
+VERT_COMBOS(NUMNAV, &kp LG(C), &kp LG(X), &kp LG(V), &kp N7, &kp N8, &kp N9)
+
+ZMK_BASE_LAYER(symbols,
+//╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+   &kp EXCL       &kp AT        &kp HASH      &kp DOLLAR  ,     &kp AMPERSAND &kp ASTERISK  &kp PERCENT   &kp CARET   ,
+//╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
+                  &kp GRAVE     &kp DQT       &kp UNDERSCORE,   &kp BACKSLASH &kp PIPE      &kp EQUAL   ,
+//              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
+                                &kp TILDE     &trans      ,     &trans        &trans
+//                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+)
+
+VERT_COMBOS(SYM, &kp LPAR, &kp LBKT, &kp LBRC, &kp RBRC, &kp RBKT, &kp RPAR)
+
+ZMK_BASE_LAYER(function,
+//╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+   &bootloader    &kp F12       &kp F11       &kp F10     ,     &kp F4        &kp F5        &kp F6        &none       ,
+//╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
+                  &kp F9        &kp F8        &kp F7      ,     &kp F1        &kp F2        &kp F3      ,
+//              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
+                                &trans        &trans      ,     &trans        &trans
+//                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+)
