@@ -122,6 +122,30 @@ ZMK_MACRO(ui,
   bindings = <&kp U &kp I>;
 )
 
+ZMK_MACRO(lr,
+  bindings = <&kp L &kp R>;
+)
+
+ZMK_MACRO(td,
+  bindings = <&kp T &kp D>;
+)
+
+ZMK_MACRO(ys,
+  bindings = <&kp Y &kp S>;
+)
+
+ZMK_MACRO(mh,
+  bindings = <&kp M &kp H>;
+)
+
+ZMK_MACRO(ao,
+  bindings = <&kp A &kp O>;
+)
+
+ZMK_MACRO(iu,
+  bindings = <&kp I &kp U>;
+)
+
 /* Other small helpers */
 
 MAKE_HRM(r_dot, &kp, &dot_morph, KEYS_L THUMBS)
@@ -152,6 +176,8 @@ LH(     P       ,     W       ,     B       ,     C      ),     &hr RSHIFT F  &h
                                 ___           ___         ,     ___           ___
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
+
+VERT_COMBOS(ALPHA, &lr, &td, &ys, &mh, &ao, &iu)
 
 ZMK_BASE_LAYER(numnav,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
