@@ -15,7 +15,7 @@
 
 #define DEF 0
 #define NAV 1
-#define NUM 2
+#define SYM 2
 #define FUN 3
 
 #define XXX &none
@@ -23,7 +23,7 @@
 
 /* Global defaults */
 
-#define QUICK_TAP_MS 175
+#define QUICK_TAP_MS 350
 
 &sk {
   release-after-ms = <900>;
@@ -47,12 +47,16 @@
 
 #define MAKE_HRM(NAME, HOLD, TAP, TRIGGER_POS)                                 \
   ZMK_HOLD_TAP(NAME, bindings = <HOLD>, <TAP>; flavor = "balanced";            \
-               tapping-term-ms = <230>; quick-tap-ms = <QUICK_TAP_MS>;         \
+               tapping-term-ms = <250>; quick-tap-ms = <QUICK_TAP_MS>;         \
                require-prior-idle-ms = <150>; hold-trigger-on-release;         \
                hold-trigger-key-positions = <TRIGGER_POS>;)
 
+
 MAKE_HRM(hl, &kp, &kp, KEYS_R THUMBS) // Left-hand HRMs.
-MAKE_HRM(hr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
+MAKE_HRM(hr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMS.
+
+#define LH(k1, k2, k3, k4) &hl LGUI k1  &hl LALT k2  &hl LCTL k3  &hl LSHFT k4
+#define RH(k1, k2, k3, k4) &hr RSHFT k1  &hr RCTL k2  &hr LALT k3  &hr RGUI k4
 
 // Hack: Make HRM combos tap-only (cf, ZMK issue #544).
 #define ZMK_COMBO_8(NAME, TAP, POS, LAYERS, COMBO_MS, IDLE_MS, HOLD, SIDE)     \
@@ -63,8 +67,9 @@ MAKE_HRM(hr, &kp, &kp, KEYS_L THUMBS) // Right-hand HRMs.
 
 #include "aptmak-combos.dtsi" // Must be sourced after HRM-combo hack.
 
+
 /* Custom behaviors */
-ZMK_CONDITIONAL_LAYER(function, NUM  NAV, FUN)
+ZMK_CONDITIONAL_LAYER(function, SYM  NAV, FUN)
 
 // Alt+Tab swapper, requires tri-state module.
 ZMK_TRI_STATE(swapper, bindings = <&kt LGUI>, <&kp TAB>, <&kt LGUI>;
@@ -104,7 +109,7 @@ ZMK_MACRO(wq,
 
 /* Keymap */
 
-ZMK_CONDITIONAL_LAYER(fun, NAV NUM, FUN) // NAV + NUM -> FUN
+ZMK_CONDITIONAL_LAYER(fun, NAV SYM, FUN) // NAV + SYM -> FUN
 
 #ifndef ZMK_BASE_LAYER
   #define ZMK_BASE_LAYER(name, LT, RT, LM, RM, LB, RB, LH, RH)                 \
@@ -115,37 +120,41 @@ ZMK_BASE_LAYER(base,
 //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
 		XXX          &kp W         &kp F         &kp P          &kp B       ,     &kp J         &kp L         &kp U         &kp Y          XXX        ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-		&hl LSHFT R   &hl LALT S    &hl LCTRL T   &hl LGUI H    &kp K       ,     &kp X         &hr RGUI N    &hr RCTRL A   &hr RALT I    &hr RSHFT O ,
+LH(     R       ,     S       ,     T       ,     H       ) &kp K       ,     &kp X     RH(     N       ,     A       ,     I       ,     O      ),
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
 		XXX           &kp C         &kp G         &kp D         XXX         ,     XXX           &kp M         &comma_morph  &dot_morph    &kp X       ,
 //╰─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────╯
-																							XXX          &lt NAV SPACE,     &lt NUM  E    XXX
+																							XXX          &lt NAV SPACE,     &lt SYM  E    XXX
 //                                          ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 
+
 ZMK_BASE_LAYER(nav,
 //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-    XXX     &mt LSHIFT LS(TAB)   &tabswapper   &swapper      ___        ,     ___           ___           ___           ___           XXX         ,
+&bootloader &mt LSHIFT LS(TAB)   &tabswapper   &swapper      ___        ,     ___           ___           ___           ___           XXX         ,
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-    &hl LSHIFT LEFT &hl LALT DOWN &hl LCTL UP   &hl LGUI RIGHT ___      ,     ___           ___           ___           ___           ___         ,
+LH(     LEFT    ,     DOWN    ,     UP      ,     RIGHT   )  ___        ,     ___       RH(     N1      ,     N2      ,     N3      ,     N0     ),
 //├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-    &bootloader   &kp LG(C)     &kp LG(X)     &kp LG(V)     XXX         ,     XXX          ___            ___           ___           XXX         ,
+    &kp HOME      &kp PGDN      &kp PGUP      &kp END       XXX         ,     XXX           &kp N4        &kp N5        &kp N6        XXX         ,
+//╰─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────╯
+                                              ___           ___         ,     &kp DOT       ___
+//                                          ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+)
+
+VERT_COMBOS(NAV, &kp LG(C), &kp LG(X), &kp LG(V), &kp N7, &kp N8, &kp N9)
+
+ZMK_BASE_LAYER(sym,
+//╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
+    XXX           &kp GRAVE     &kp LBKT      &lpar_morph   XXX         ,     XXX           &rpar_morph   &kp RBKT      &kp BSLH      XXX         ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+   &kp EXCL       &kp AT        &kp HASH      &kp DOLLAR    XXX         ,     XXX           &kp AMPERSAND &kp ASTERISK  &kp PERCENT   &kp CARET   ,
+//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
+    XXX           &kp GRAVE     &kp DQT       &kp UNDERSCORE XXX        ,     XXX           &kp BACKSLASH &kp PIPE      &kp EQUAL     XXX         ,
 //╰─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────╯
                                               ___           ___         ,     ___           ___
 //                                          ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
-
-ZMK_BASE_LAYER(num,
-//╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
-    XXX           &kp GRAVE     &kp LBKT      &lpar_morph   XXX         ,     XXX           &rpar_morph   &kp RBKT      &kp BSLH      XXX         ,
-//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-    &hl LSHFT N1  &hl LALT N2   &hl LCTRL N3  &hl LGUI N4   XXX         ,     XXX           &hr RGUI N6   &hr RCTRL N7  &hr RALT N8   &hr RSHFT N9,
-//├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤
-    XXX           ___           ___           &kp N5        XXX         ,     XXX           &kp N5        ___           ___           XXX         ,
-//╰─────────────┼─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────┼─────────────╯
-                                              ___           &kp N0      ,     ___           ___
-//                                          ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
-)
+VERT_COMBOS(SYM, &kp LPAR, &kp LBKT, &kp LBRC, &kp RBRC, &kp RBKT, &kp RPAR)
 
 ZMK_BASE_LAYER(fun,
 //╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────┬─────────────╮
