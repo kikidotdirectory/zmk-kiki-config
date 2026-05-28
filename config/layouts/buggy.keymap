@@ -96,54 +96,17 @@ ZMK_TRI_STATE(tabswapper, bindings = <&kt LCTL>, <&kp TAB>, <&kt LCTL>;
 SIMPLE_MORPH(comma_morph, SFT, &kp COMMA, &kp SEMICOLON)
 // Tap: period | Shift + tap: colon
 SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &kp COLON)
+SIMPLE_MORPH(dot_comma, CTL, &dot_morph, &comma_morph)
+SIMPLE_MORPH(slash_star, SFT, &kp SLASH, &kp ASTERISK)
 
-ZMK_MACRO(rl,
-  bindings = <&kp R &kp L>;
-)
+#define BIGRAM(NAME, K1, K2) ZMK_MACRO(NAME, bindings = <&kp K1 &kp K2>;)
 
-ZMK_MACRO(dt,
-  bindings = <&kp D &kp T>;
-)
-
-ZMK_MACRO(sy,
-  bindings = <&kp S &kp Y>;
-)
-
-ZMK_MACRO(hm,
-  bindings = <&kp H &kp M>;
-)
-
-ZMK_MACRO(oa,
-  bindings = <&kp O &kp A>;
-)
-
-ZMK_MACRO(ui,
-  bindings = <&kp U &kp I>;
-)
-
-ZMK_MACRO(lr,
-  bindings = <&kp L &kp R>;
-)
-
-ZMK_MACRO(td,
-  bindings = <&kp T &kp D>;
-)
-
-ZMK_MACRO(ys,
-  bindings = <&kp Y &kp S>;
-)
-
-ZMK_MACRO(mh,
-  bindings = <&kp M &kp H>;
-)
-
-ZMK_MACRO(ao,
-  bindings = <&kp A &kp O>;
-)
-
-ZMK_MACRO(iu,
-  bindings = <&kp I &kp U>;
-)
+BIGRAM(rl, R, L)  BIGRAM(lr, L, R)
+BIGRAM(dt, D, T)  BIGRAM(td, T, D)
+BIGRAM(sy, S, Y)  BIGRAM(ys, Y, S)
+BIGRAM(hm, H, M)  BIGRAM(mh, M, H)
+BIGRAM(oa, O, A)  BIGRAM(ao, A, O)
+BIGRAM(ui, U, I)  BIGRAM(iu, I, U)
 
 /* Other small helpers */
 
@@ -154,32 +117,43 @@ MAKE_HRM(r_dot, &kp, &dot_morph, KEYS_L THUMBS)
 /* Combos */
 
 /* Diagonal combos */
-ZMK_COMBO(backslash,    &kp BSLH,              LB3 LM2    ,      ALPHA BETA NUMNAV NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(fslash,       &kp SLASH,                 RM2 RB3,      ALPHA BETA NUMNAV NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(lt,           &kp LT,                LB3 LM2    ,                               SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(gt,           &kp GT,                    RM2 RB3,                               SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
+#define DIAG_BRACKET_PAIR(L_NAME, R_NAME, L_KEY, R_KEY, L_POS, R_POS, LAYER) \
+    ZMK_COMBO(L_NAME, &kp L_KEY, L_POS, LAYER, COMBO_TERM_SLOW, COMBO_IDLE_FAST) \
+    ZMK_COMBO(R_NAME, &kp R_KEY, R_POS, LAYER, COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+
+
+ZMK_COMBO(lpar,         &hl LG(LCTL) LPAR,     LM4 LM3    ,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(lbkt,         &hl LG(LCTL) LBKT,     LM4     LM2,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(rpar,         &hr RG(RCTL) RPAR,     RM4 RM3    ,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(rbkt,         &hr RG(RCTL) RBKT,     RM4     RM2,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 
 /* Middle horizontal combos */
-ZMK_COMBO(tab,          &hl LC(LALT) TAB,          LM2 LM1,      ALPHA BETA        NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(esc,          &hl LS(LALT) ESC,      LM3     LM1,      ALPHA BETA        NUMSYS SYM , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
-ZMK_COMBO(sqt,          &hl LC(LALT) SQT,      LM3 LM2    ,      ALPHA BETA        NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(winswap,      &winswapper,               LM2 LM1,                 NUMNAV            , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
-ZMK_COMBO(tabswap,      &tabswapper,           LM3 LM2    ,                 NUMNAV            , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
-ZMK_COMBO(s_tab,        &mt LSHIFT LS(TAB),    LM3     LM1,                 NUMNAV            , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(tab,          &hl LC(LALT) TAB,          LM2 LM1,      ALPHA BETA        NUMSYS SYM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(esc,          &hl LS(LALT) ESC,      LM3     LM1,      ALPHA BETA        NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(sqt,          &hl LC(LALT) SQT,      LM3 LM2    ,      ALPHA BETA               SYM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(winswap,      &winswapper,               LM2 LM1,                 NUMNAV           , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(tabswap,      &tabswapper,           LM3 LM2    ,                 NUMNAV           , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(s_tab,        &mt LSHIFT LS(TAB),    LM3     LM1,                 NUMNAV           , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
 
-ZMK_COMBO(bsp,          &hr RS(RCTL) BSPC,     RM1 RM2    ,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(minus,        &kp MINUS,                 RM2 RM3,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
-ZMK_COMBO(ret,          &hr RS(RALT) RET,      RM1     RM3,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(bsp,          &hr RS(RCTL) BSPC,     RM1 RM2    ,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(minus,        &kp MINUS,                 RM2 RM3,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
+ZMK_COMBO(ret,          &hr RS(RALT) RET,      RM1     RM3,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
 
 /* Bottom Horizontal combos */
-ZMK_COMBO(capsword,     &caps_word,                LB2 LB1,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(shift_l,      &sk LSHIFT,            LB3 LB2    ,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(capsword,     &caps_word,                LB2 LB1,      ALPHA BETA NUMNAV        SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(shift_l,      &sk LSHIFT,            LB3 LB2    ,      ALPHA BETA NUMNAV        SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 
-ZMK_COMBO(shift_r,      &sk RSHIFT,                RB2 RB3,      ALPHA BETA NUMNAV NUMSYS SYM , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(fslash,       &kp SLASH,             RB1     RB3,      ALPHA BETA NUMNAV NUMSYS    , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(shift_r,      &sk RSHIFT,                RB2 RB3,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+
 
 /* Keymap layers */
 
 ZMK_CONDITIONAL_LAYER(fun, NUMNAV SYM, FUN)
+/* todo: could use this for different types of sym access by setting it to a mod morph or leader key */
+SIMPLE_MORPH(layer_combo, CTL, &sl SYM, &to NUMSYS)
+ZMK_COMBO(sym_access,   &layer_combo,          LH0 RH0,          ALPHA BETA,                   COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(numsys_to_home, &to NUMSYS,          LH0 RH0,                            NUMSYS    , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
 
 
 ZMK_BASE_LAYER(alpha,
@@ -188,11 +162,11 @@ LH(     N       ,     R       ,     T       ,     S      ), RH(     H       ,   
 //╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
                   &kp L         &kp D         &kp Y       ,     &kp M         &kp O         &kp U       ,
 //              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
-                                &sl NUMSYS  &lt NUMNAV SPACE,   &sl BETA      &sl SYM
+                                &sl SYM     &lt NUMNAV SPACE,   &sl BETA      &sl SYM
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 
-VERT_COMBOS(ALPHA, &rl, &td, &sy, &hm, &ao, &iu)
+VERT_COMBOS(ALPHA, &rl, &dt, &sy, &hm, &oa, &ui)
 
 ZMK_BASE_LAYER(beta,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
@@ -204,7 +178,7 @@ LH(     P       ,     W       ,     B       ,     C      ),     &hr RSHIFT F  &h
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 
-VERT_COMBOS(BETA, &lr, &dt, &ys, &mh, &oa, &ui)
+VERT_COMBOS(BETA, &lr, &td, &ys, &mh, &ao, &iu)
 
 ZMK_BASE_LAYER(numnav,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
@@ -218,25 +192,33 @@ LH(     LEFT    ,     DOWN    ,     UP      ,     RIGHT  ), RH(     N1      ,   
 
 VERT_COMBOS(NUMNAV, &kp LG(C), &kp LG(X), &kp LG(V), &kp N7, &kp N8, &kp N9)
 
+
+/* number-input layer */
 ZMK_BASE_LAYER(numsys,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
-LH(     N0      ,     N3      ,     N2      ,     N1     ),     &sk RSHIFT    &sk RCTL      &sk RALT      &sk RGUI    ,
+    &hl LSHFT N0  &kp N3        &hl LCTL N2   &kp N1      ,     &sk RSHIFT    &sk RCTL      &sk RALT      &sk RGUI    ,
 //╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
                   &kp N6        &kp N5        &kp N4      ,     ___           ___           ___         ,
 //              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
-                                &kp 0         ___         ,     ___           ___
+                                &kp 0         &dot_comma  ,     ___           ___
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 
 VERT_COMBOS(NUMSYS, &kp N9, &kp N8, &kp N7, &none, &none, &none)
+ZMK_COMBO(n_equal,      &kp EQUAL,             LM3     LM1,                        NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(n_comma,      &slash_star,           LM3 LM2    ,                        NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(n_minus,      &kp MINUS,                 LM2 LM1,                        NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(n_bsp,        &kp BSPC,              LB3 LB2    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(n_tab,        &kp TAB,               LB2 LB1    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(n_esc,        &kp ESC,               LB3 LB1    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
 
 ZMK_BASE_LAYER(symbols,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
    &kp EXCL       &kp AT        &kp HASH      &kp DOLLAR  ,     &kp AMPERSAND &kp ASTERISK  &kp PERCENT   &kp CARET   ,
 //╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
-                  &kp GRAVE     &kp DQT       &kp UNDERSCORE,   &kp BACKSLASH &kp PIPE      &kp EQUAL   ,
+                  &kp GRAVE     &kp TILDE     &kp UNDERSCORE,   &kp BACKSLASH &kp PIPE      &kp EQUAL   ,
 //              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
-                                &kp TILDE     &trans      ,     &trans        &kp 0 
+                                &kp TILDE     &kp 0       ,     &kp 0         &kp 0 
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 
