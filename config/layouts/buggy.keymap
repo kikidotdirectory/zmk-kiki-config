@@ -4,8 +4,8 @@
 
 #define ALPHA  0
 #define BETA   1
-#define NUMNAV 2
-#define NUMSYS 3
+#define NUMSYS 2
+#define NUMNAV 3
 #define SYM    4
 #define FUN    5
 
@@ -99,7 +99,7 @@ SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &kp COLON)
 
 // Tap: Space | Alt + tap: period | Alt + Shift + tap: colon
 //            | Ctl + tap: comma  | Ctl + Shift + tap: semicolon
-SIMPLE_MORPH(spc_comma, CTL, &kp SPACE, &comma_morph)
+SIMPLE_MORPH(spc_comma, CTL, &lt NUMNAV SPACE, &comma_morph)
 SIMPLE_MORPH(spc_punc, ALT, &spc_comma, &dot_morph)
 
 SIMPLE_MORPH(enter_tab, SFT, &kp ENTER, &kp TAB)
@@ -186,19 +186,6 @@ LH(     P       ,     W       ,     B       ,     C      ),     &hr RSHIFT F  &h
 
 VERT_COMBOS(BETA, &lr, &td, &ys, &mh, &ao, &iu)
 
-ZMK_BASE_LAYER(numnav,
-//╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
-LH(     LEFT    ,     DOWN    ,     UP      ,     RIGHT  ), RH(     N1      ,     N2      ,     N3      ,     N0     ),
-//╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
-                  &kp PGDN      &kp PGUP      ___         ,     &kp N4        &kp N5        &kp N6      ,
-//              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
-                                ___           ___         ,     &dot_morph    ___
-//                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
-)
-
-VERT_COMBOS(NUMNAV, &kp LG(C), &kp LG(X), &kp LG(V), &kp N7, &kp N8, &kp N9)
-
-
 /* number-input layer */
 ZMK_BASE_LAYER(numsys,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
@@ -217,6 +204,18 @@ ZMK_COMBO(n_minus,      &kp MINUS,                 LM2 LM1,                     
 ZMK_COMBO(n_bsp,        &bspc_del,             LB3 LB2    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
 ZMK_COMBO(n_tab,        &enter_tab,            LB2 LB1    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
 ZMK_COMBO(n_esc,        &kp ESC,               LB3     LB1,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+
+ZMK_BASE_LAYER(numnav,
+//╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
+LH(     LEFT    ,     DOWN    ,     UP      ,     RIGHT  ), RH(     N1      ,     N2      ,     N3      ,     N0     ),
+//╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
+                  &kp PGDN      &kp PGUP      ___         ,     &kp N4        &kp N5        &kp N6      ,
+//              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
+                                ___           ___         ,     &dot_morph    ___
+//                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
+)
+
+VERT_COMBOS(NUMNAV, &kp LG(C), &kp LG(X), &kp LG(V), &kp N7, &kp N8, &kp N9)
 
 ZMK_BASE_LAYER(symbols,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
