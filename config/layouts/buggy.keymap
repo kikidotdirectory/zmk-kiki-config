@@ -198,12 +198,12 @@ ZMK_BASE_LAYER(numsys,
 )
 
 VERT_COMBOS(NUMSYS, &kp N9, &kp N8, &kp N7, &none, &none, &none)
-ZMK_COMBO(n_equal,      &kp EQUAL,             LM3     LM1,                        NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
-ZMK_COMBO(n_comma,      &slash_star,           LM3 LM2    ,                        NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
-ZMK_COMBO(n_minus,      &kp MINUS,                 LM2 LM1,                        NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
-ZMK_COMBO(n_bsp,        &bspc_del,             LB3 LB2    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
-ZMK_COMBO(n_tab,        &enter_tab,            LB2 LB1    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
-ZMK_COMBO(n_esc,        &kp ESC,               LB3     LB1,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(n_bsp,        &bspc_del,             LM3 LM2    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(n_tab,        &enter_tab,            LM2 LM1    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(n_esc,        &kp ESC,               LM3     LM1,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(n_equal,      &kp EQUAL,             LB3     LB1,                        NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(n_comma,      &slash_star,           LB3 LB2    ,                        NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
+ZMK_COMBO(n_minus,      &kp MINUS,                 LB2 LB1,                        NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
 
 ZMK_BASE_LAYER(numnav,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
