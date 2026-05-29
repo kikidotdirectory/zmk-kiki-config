@@ -151,10 +151,7 @@ ZMK_COMBO(shift_r,      &sk RSHIFT,                RB2 RB3,      ALPHA BETA NUMN
 
 ZMK_CONDITIONAL_LAYER(fun, NUMNAV SYM, FUN)
 /* todo: could use this for different types of sym access by setting it to a mod morph or leader key */
-SIMPLE_MORPH(layer_combo, CTL, &sl SYM, &to NUMSYS)
-ZMK_COMBO(sym_access,   &layer_combo,          LH0 RH0,          ALPHA BETA,                   COMBO_TERM_SLOW, COMBO_IDLE_FAST)
-ZMK_COMBO(numsys_to_home, &to NUMSYS,          LH0 RH0,                            NUMSYS    , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
-
+ZMK_COMBO(sym_access,   &sl SYM,          LH0 RH0,          ALPHA BETA,                   COMBO_TERM_SLOW, COMBO_IDLE_FAST)
 
 ZMK_BASE_LAYER(alpha,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
@@ -162,7 +159,7 @@ LH(     N       ,     R       ,     T       ,     S      ), RH(     H       ,   
 //╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
                   &kp L         &kp D         &kp Y       ,     &kp M         &kp O         &kp U       ,
 //              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
-                                &sl SYM     &lt NUMNAV SPACE,   &sl BETA      &sl SYM
+                                &tog NUMSYS &lt NUMNAV SPACE,   &sl BETA      &sl SYM
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 
