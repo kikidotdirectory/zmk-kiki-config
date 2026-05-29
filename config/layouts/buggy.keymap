@@ -96,7 +96,16 @@ ZMK_TRI_STATE(tabswapper, bindings = <&kt LCTL>, <&kp TAB>, <&kt LCTL>;
 SIMPLE_MORPH(comma_morph, SFT, &kp COMMA, &kp SEMICOLON)
 // Tap: period | Shift + tap: colon
 SIMPLE_MORPH(dot_morph, SFT, &kp DOT, &kp COLON)
-SIMPLE_MORPH(dot_comma, CTL, &dot_morph, &comma_morph)
+
+// Tap: Space | Alt + tap: period | Alt + Shift + tap: colon
+//            | Ctl + tap: comma  | Ctl + Shift + tap: semicolon
+SIMPLE_MORPH(spc_comma, CTL, &kp SPACE, &comma_morph)
+SIMPLE_MORPH(spc_punc, ALT, &spc_comma, &dot_morph)
+
+SIMPLE_MORPH(enter_tab, SFT, &kp ENTER, &kp TAB)
+SIMPLE_MORPH(bspc_del, SFT, &kp BSPC, &kp DEL)
+
+// Tap: slash | Shift + tap: asterisk
 SIMPLE_MORPH(slash_star, SFT, &kp SLASH, &kp ASTERISK)
 
 #define BIGRAM(NAME, K1, K2) ZMK_MACRO(NAME, bindings = <&kp K1 &kp K2>;)
@@ -193,11 +202,11 @@ VERT_COMBOS(NUMNAV, &kp LG(C), &kp LG(X), &kp LG(V), &kp N7, &kp N8, &kp N9)
 /* number-input layer */
 ZMK_BASE_LAYER(numsys,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
-    &hl LSHFT N0  &kp N3        &hl LCTL N2   &kp N1      ,     &sk RSHIFT    &sk RCTL      &sk RALT      &sk RGUI    ,
+    &hl LSHFT N0  &hl LALT N3   &hl LCTL N2   &kp N1      ,     &sk RSHIFT    &sk RCTL      &sk RALT      &sk RGUI    ,
 //╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
                   &kp N6        &kp N5        &kp N4      ,     ___           ___           ___         ,
 //              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
-                                &kp 0         &dot_comma  ,     ___           ___
+                                ___           &spc_punc   ,     ___           ___
 //                            ╰─────────────┴─────────────╯   ╰─────────────┴─────────────╯
 )
 
@@ -205,9 +214,9 @@ VERT_COMBOS(NUMSYS, &kp N9, &kp N8, &kp N7, &none, &none, &none)
 ZMK_COMBO(n_equal,      &kp EQUAL,             LM3     LM1,                        NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
 ZMK_COMBO(n_comma,      &slash_star,           LM3 LM2    ,                        NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
 ZMK_COMBO(n_minus,      &kp MINUS,                 LM2 LM1,                        NUMSYS     , COMBO_TERM_FAST, COMBO_IDLE_SLOW)
-ZMK_COMBO(n_bsp,        &kp BSPC,              LB3 LB2    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
-ZMK_COMBO(n_tab,        &kp TAB,               LB2 LB1    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
-ZMK_COMBO(n_esc,        &kp ESC,               LB3 LB1    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(n_bsp,        &bspc_del,             LB3 LB2    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(n_tab,        &enter_tab,            LB2 LB1    ,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(n_esc,        &kp ESC,               LB3     LB1,                        NUMSYS     , COMBO_TERM_SLOW, COMBO_IDLE_FAST)
 
 ZMK_BASE_LAYER(symbols,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
