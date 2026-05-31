@@ -34,10 +34,10 @@
 /* Define combo helpers */
 
 #define COMBO_TERM_FAST 22
-#define COMBO_TERM_SLOW 40
+#define COMBO_TERM_SLOW 45
 
 #define COMBO_IDLE_FAST 120
-#define COMBO_IDLE_SLOW 50
+#define COMBO_IDLE_SLOW 60
 
 #define COMBOS_TOP_ROW(LAYER, LTPR, LTRM, LTMI, RTIM, RTMR, RTRP)                      \
 	ZMK_COMBO(LAYER##_ltpr, LTPR, LM4 LM3, LAYER, COMBO_TERM_SLOW, COMBO_IDLE_FAST) \
@@ -108,6 +108,10 @@ SIMPLE_MORPH(bspc_del, SFT, &kp BSPC, &kp DEL)
 // Tap: slash | Shift + tap: asterisk
 SIMPLE_MORPH(slash_star, SFT, &kp SLASH, &kp ASTERISK)
 
+// Tap: parentheses | Shift + tap: angle bracket
+SIMPLE_MORPH(lpar_morph, SFT, &kp LPAR, &kp LT)
+SIMPLE_MORPH(rpar_morph, SFT, &kp RPAR, &kp GT)
+
 #define BIGRAM(NAME, K1, K2) ZMK_MACRO(NAME, bindings = <&kp K1 &kp K2>;)
 
 BIGRAM(rl, R, L)  BIGRAM(lr, L, R)
@@ -131,10 +135,10 @@ MAKE_HRM(r_dot, &kp, &dot_morph, KEYS_L THUMBS)
     ZMK_COMBO(R_NAME, &kp R_KEY, R_POS, LAYER, COMBO_TERM_SLOW, COMBO_IDLE_FAST)
 
 
-ZMK_COMBO(lpar,         &hl LG(LCTL) LPAR,     LM4 LM3    ,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(lbkt,         &hl LG(LCTL) LBKT,     LM4     LM2,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(rpar,         &hr RG(RCTL) RPAR,     RM4 RM3    ,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(rbkt,         &hr RG(RCTL) RBKT,     RM4     RM2,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(lpar,         &lpar_morph,           LM3     LB1,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(lbkt,         &hl LG(LCTL) LBKT,     LB3     LM1,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(rpar,         &rpar_morph,           RM3     RB1,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(rbkt,         &hr RG(RCTL) RBKT,     RB3     RM1,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 
 /* Middle horizontal combos */
 ZMK_COMBO(tab,          &hl LC(LALT) TAB,          LM2 LM1,      ALPHA BETA        NUMSYS SYM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
