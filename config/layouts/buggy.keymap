@@ -223,7 +223,7 @@ VERT_COMBOS(NUMNAV, &kp LG(C), &kp LG(X), &kp LG(V), &kp N7, &kp N8, &kp N9)
 
 ZMK_BASE_LAYER(symbols,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
-   &kp EXCL       &kp AT        &kp HASH      &kp DOLLAR  ,     &kp AMPERSAND &kp ASTERISK  &kp PERCENT   &kp CARET   ,
+LH(    EXCL     ,     AT      ,     HASH    ,     DOLLAR ), RH(   AMPERSAND ,     ASTERISK,     PERCENT ,     CARET  ),
 //╰─────────────┼─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────┼─────────────╯
                   &kp GRAVE     &kp TILDE     &kp UNDERSCORE,   &kp BACKSLASH &kp PIPE      &kp EQUAL   ,
 //              ╰─────────────┼─────────────┼─────────────┤   ├─────────────┼─────────────┼─────────────╯
