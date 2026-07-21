@@ -135,10 +135,14 @@ MAKE_HRM(r_dot, &kp, &dot_morph, KEYS_L THUMBS)
     ZMK_COMBO(R_NAME, &kp R_KEY, R_POS, LAYER, COMBO_TERM_SLOW, COMBO_IDLE_FAST)
 
 
-ZMK_COMBO(lpar,         &lpar_morph,           LM3     LB1,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(lbkt,         &hl LG(LCTL) LBKT,     LB3     LM1,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(rpar,         &rpar_morph,           RM3     RB1,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
-ZMK_COMBO(rbkt,         &hr RG(RCTL) RBKT,     RB3     RM1,      ALPHA BETA NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(lpar,         &kp LPAR,              LM3     LB1,      ALPHA      NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(lbkt,         &kp LBKT,              LB3     LM1,      ALPHA      NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(rpar,         &kp RPAR,              RM3     RB1,      ALPHA      NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(rbkt,         &kp RBKT,              RB3     RM1,      ALPHA      NUMNAV NUMSYS SYM, COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(lt,           &kp LT,                LM3     LB1,            BETA                  , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(lbrc,         &kp LBRC,              LB3     LM1,            BETA                  , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(gt,           &kp GT,                RM3     RB1,            BETA                  , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
+ZMK_COMBO(rbrc,         &kp RBRC,              RB3     RM1,            BETA                  , COMBO_TERM_SLOW, COMBO_IDLE_SLOW)
 
 /* Middle horizontal combos */
 ZMK_COMBO(tab,          &hl LC(LALT) TAB,          LM2 LM1,      ALPHA BETA        NUMSYS SYM, COMBO_TERM_FAST, COMBO_IDLE_FAST)
@@ -164,7 +168,7 @@ ZMK_COMBO(shift_r,      &sk RSHIFT,                RB2 RB3,      ALPHA BETA NUMN
 
 ZMK_CONDITIONAL_LAYER(fun, NUMNAV SYM, FUN)
 /* todo: could use this for different types of sym access by setting it to a mod morph or leader key */
-ZMK_COMBO(sym_access,   &sl SYM,          LH0 RH0,          ALPHA BETA,                   COMBO_TERM_SLOW, COMBO_IDLE_FAST)
+ZMK_COMBO(fun,   &sl FUN,          LH0 RH0,          ALPHA BETA,                   COMBO_TERM_SLOW, COMBO_IDLE_FAST)
 
 ZMK_BASE_LAYER(alpha,
 //╭─────────────┬─────────────┬─────────────┬─────────────╮   ╭─────────────┬─────────────┬─────────────┬─────────────╮
